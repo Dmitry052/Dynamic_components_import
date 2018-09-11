@@ -28,16 +28,20 @@ class TestImport extends React.Component {
   async componentDidMount() {
     const { componentDir } = this.state;
 
-    componentDir.forEach(async (path, i) => {
-      /* eslint-disable prefer-template */
-      const module = await import("" + path);
-      this.setState({
-        components: {
-          ...this.state.components,
-          [`module-${i}`]: module.default
-        }
+    try {
+      componentDir.forEach(async (path, i) => {
+        /* eslint-disable prefer-template */
+        const module = await import("" + path);
+        this.setState({
+          components: {
+            ...this.state.components,
+            [`module-${i}`]: module.default
+          }
+        });
       });
-    });
+    } catch (error) {
+      console.info(error);
+    }
   }
 
   render() {
