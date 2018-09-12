@@ -5,17 +5,13 @@ class TestImport extends React.Component {
     super(props);
 
     this.state = {
-      componentDir: [
-        "./components/T1",
-        "./components/T2",
-        "./components/T3",
-        "./components/T4"
-      ]
+      files: ["T1", "T2", "T3", "T4"],
+      componentDir: "./components"
     };
   }
 
   componentWillMount() {
-    this.state.componentDir.forEach((item, i) => {
+    this.state.files.forEach((item, i) => {
       this.setState({
         components: {
           ...this.state.components,
@@ -26,12 +22,12 @@ class TestImport extends React.Component {
   }
 
   async componentDidMount() {
-    const { componentDir } = this.state;
+    const { files, componentDir } = this.state;
 
     try {
-      componentDir.forEach(async (path, i) => {
+      files.forEach(async (fileName, i) => {
         /* eslint-disable prefer-template */
-        const module = await import("" + path);
+        const module = await import("" + `${componentDir}/${fileName}`);
         this.setState({
           components: {
             ...this.state.components,
